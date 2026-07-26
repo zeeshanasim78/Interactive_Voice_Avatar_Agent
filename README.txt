@@ -138,7 +138,18 @@ your work:
 3.2 Open a terminal inside VS Code (Terminal > New Terminal) and create a
     virtual environment:
         Windows : python -m venv venv
-                  venv\Scripts\activate
+                Note : You can also select using the Ctrl + Shift + P and Create Python environment
+                
+                To activate Virtual environment use command
+                venv\Scripts\activate
+
+                Note : In case you are getting error while activating the Virtual environment
+                        Execute the following command on Power Shell via Administrator
+
+                        Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+                        Restart VS Code and try opening a terminal again
+
         Linux   : python3.12 -m venv venv
                   source venv/bin/activate
 
@@ -149,6 +160,8 @@ your work:
 
 3.3 Create the folder structure exactly as described in Section 6 of the
     design doc ("Project Folder Structure"). In the VS Code terminal:
+
+        Note : YOu can execute these comman on the CMD Terminal while residing on the project start folder
 
         mkdir config knowledge_base knowledge_base\pdfs knowledge_base\vector_store
         mkdir videos avatar_assets avatar_assets\audio logs
@@ -175,7 +188,7 @@ your work:
         coqui-tts
         pyttsx3
         PySide6
-        argos-translate
+        argostranslate>=1.9.4
 
 3.5 Install everything:
         pip install -r requirements.txt
@@ -185,10 +198,13 @@ your work:
 
     IMPORTANT: do NOT run "pip install TTS" (no dash, capital letters) or
     "pip install PyQt5" or "pip install webrtcvad" or plain "pip install
-    langchain" - those are the OLD package names that either fail to install
-    or fail to import correctly on Python 3.12. Use exactly the names above.
+    langchain" or "pip install argos-translate" (with a hyphen - this
+    package does not exist on PyPI and will fail with "No matching
+    distribution found") - those are the OLD/WRONG package names that
+    either fail to install or fail to import correctly on Python 3.12. Use
+    exactly the names above (note "argostranslate" has NO hyphen).
     See Section 15 of NAB_AI_System_Design.md for the full explanation of
-    each swap.
+    each swap, and Section 15.1 for this specific correction.
 
 --------------------------------------------------------------------------------
 4. USE CLAUDE CODE CLI TO BUILD EACH PHASE (SPEC-DRIVEN, BEGINNER-FRIENDLY)
@@ -445,6 +461,41 @@ Claude Code CLI:
 Testing:
     pytest tests/ -v             - run all tests with verbose output
     pytest tests/test_stt.py -v  - run one specific test file
+
+--------------------------------------------------------------------------------
+9A. COMMON pip install ERRORS AND FIXES
+--------------------------------------------------------------------------------
+"ERROR: No matching distribution found for argos-translate"
+    -> Wrong package name. The correct name has NO hyphen: argostranslate
+       Fix: pip install argostranslate>=1.9.4
+
+"ERROR: No matching distribution found for TTS" (or a RuntimeError about
+Python version on import)
+    -> You installed/imported the old, unmaintained package. Use the
+       maintained fork instead: pip install coqui-tts
+       (the import in code stays "from TTS.api import TTS" - that part is
+       correct and doesn't change)
+
+"ModuleNotFoundError: No module named 'PyQt5.sip'" or similar PyQt5 errors
+    -> PyQt5 doesn't have reliable Python 3.12 wheels. Use PySide6 instead:
+       pip install PySide6
+       (code must import from PySide6, not PyQt5 - see Phase 9 note above)
+
+"Failed building wheel for webrtcvad"
+    -> webrtcvad doesn't build on Python 3.12. Use silero-vad instead:
+       pip install silero-vad
+
+"Failed building wheel for sentencepiece" (can appear while installing
+argostranslate, especially on Windows)
+    -> Try installing sentencepiece by itself first, which pulls a prebuilt
+       wheel: pip install sentencepiece
+       then retry: pip install argostranslate>=1.9.4
+       If it still fails on Windows, the most reliable fix is to do this
+       step inside WSL2 (Windows Subsystem for Linux) or on a Linux machine.
+
+If you hit an install error not listed here, copy the FULL error text into
+your Claude Code session and ask it to identify the correct current PyPI
+package name/version for Python 3.12 before trying random fixes.
 
 --------------------------------------------------------------------------------
 10. FINAL CHECKLIST BEFORE GOING LIVE

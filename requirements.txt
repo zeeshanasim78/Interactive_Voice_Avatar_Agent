@@ -1,0 +1,14 @@
+        sounddevice
+        silero-vad
+        faster-whisper
+        rapidfuzz
+        sentence-transformers
+        python-vlc
+        pdfplumber
+        chromadb
+        langchain-text-splitters
+        pyyaml
+        coqui-tts
+        pyttsx3
+        PySide6
+        argostranslate>=1.9.4
