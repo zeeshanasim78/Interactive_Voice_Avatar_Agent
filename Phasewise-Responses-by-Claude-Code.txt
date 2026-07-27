@@ -1026,3 +1026,57 @@ I verified this for real, not just by reading it back: I fed real synthesized sp
 Nothing beyond Phase 1 was touched — no STT, routing, orchestrator, or UI.
 ======================================================================================
 
+
+======================================================================================
+Phase 3 : Response 
+======================================================================================
+Phase 3 is implemented and passing its acceptance criteria. Summary:
+
+Files created:
+
+config/restricted_topics.yaml — DRAFT restricted-topic patterns (case-specific, named-individual, ongoing-proceedings, bypass-attempt) in English + Urdu, plus the dedicated boundary response (marked pending NAB compliance sign-off per the doc's instruction).
+src/routing/restricted_filter.py — Step 1 hard pre-filter: pure regex/keyword, no LLM, so it can't be bypassed by prompt injection (Section 9 finding #3).
+src/routing/intent_router.py — Steps 1–4 of Section 5.3: restricted filter first, then rapidfuzz keyword match (threshold 75), then sentence-transformers (paraphrase-multilingual-mpnet-base-v2, per the Section 9 multilingual-embedding fix) for video-vs-PDF-QA disambiguation, then fallback.
+config/video_map.yaml — the input data Step 2 explicitly needs (not Phase 4's player/VLC work, just the config file named directly in 5.3's own text).
+tests/phase3_routing_test.py — the required 30-phrase (video/PDF/fallback × English/Urdu) test set plus a 12-phrase restricted-topic adversarial set, writing results to tests/phase3_routing_results.csv.
+Result: 29/30 (96.7%) routing accuracy and 12/12 (100%) restricted-topic catch rate — both clear the Phase 3 acceptance bar (≥90% / 100%).
+
+One notable fix along the way: naive rapidfuzz.fuzz.partial_ratio scored short filler-heavy keywords (e.g. "what is nab") as false-positive matches against unrelated queries just from shared words like "what is". I replaced it with fuzz.ratio over sliding word-windows sized to each keyword, which requires the whole window to resemble the whole keyword rather than crediting a partial filler-word overlap — documented in _keyword_match_score's docstring.
+
+Two things worth flagging: the project's .venv is actually Python 3.14, not 3.12 as the doc specifies (pre-existing, not something I changed); and restricted_topics.yaml is explicitly marked DRAFT since the doc requires NAB compliance sign-off before go-live. Nothing from Phase 4+ (video playback, RAG, etc.) was touched.
+======================================================================================
+
+
+======================================================================================
+Phase 4 : Response
+======================================================================================
+Phase 4 (Video Library Manager, Section 7 & 5.4) is implemented:
+
+config/video_map.yaml — already existed from Phase 3 prep with the 4 topics from Section 5.4 verbatim (English + Urdu keywords); updated its header comment since it's now actively consumed by the player, not just the router. file: entries remain placeholders per the design doc's Assumption 2.3 (NAB hasn't supplied real videos yet) — swappable with no code change (NFR6).
+src/video/player.py — VideoLibrary (loads the YAML, resolves topic → file, flags missing files) and VideoPlayer (full-screen playback via python-vlc, stop() for the interrupt UX per FR5, is_playing(), wait_until_finished()). VLC init failures and missing files raise clear typed exceptions (VideoPlaybackError, FileNotFoundError) rather than crashing, per Section 9 review finding #6.
+tests/phase4_video_test.py — acceptance test: 12 English/Urdu phrases across all 4 topics routed through the existing IntentRouter → 100% correct video-to-keyword mapping (verified, passing). It also exercises real playback + interrupt-latency (<1s) for any video whose file exists on disk with a working VLC.
+Two things worth flagging about this environment specifically:
+
+No .mp4 files exist under videos/ yet (expected — real videos are NAB's deliverable), so the playback/interrupt half of the acceptance criteria is reported as UNVERIFIED, not faked as passing.
+This machine's installed VLC (Program Files (x86)\VideoLAN\VLC) is 32-bit while the venv's Python is 64-bit, so python-vlc can't load libvlc.dll here (VideoPlaybackError is raised cleanly with a diagnostic message). Once real videos and a matching-architecture VLC are on the kiosk PC, python -m tests.phase4_video_test's playback checks will actually exercise the video.
+Per your instruction, I stopped at Phase 4 — no later-phase code was touched.
+======================================================================================
+
+Phase 5: Response
+======================================================================================
+Phase 5 (Knowledge Base / PDF RAG) is implemented and passing acceptance criteria.
+
+What was built:
+
+src/rag/ingest.py — loads PDFs from knowledge_base/pdfs/ via pdfplumber, chunks each page into ~300–500 token windows (measured with the embedding model's own tokenizer, via langchain-text-splitters' RecursiveCharacterTextSplitter.from_huggingface_tokenizer) with overlap, embeds with the multilingual sentence-transformers model already used in Phase 3's router, and stores in a persistent Chroma collection (cosine space).
+src/rag/query_engine.py — embeds the query, retrieves top-k=4 chunks, gates on a calibrated cosine-similarity threshold (0.40 — empirically separates grounded ~0.5–0.8 from unrelated ~0.1–0.3 queries), and only then calls a local Ollama LLM with the spec's exact grounding system prompt. Also catches the case where the LLM itself declines to answer despite passing the similarity gate, and Ollama being unreachable — both fold into a structured "no answer available" signal for the caller, never a raw exception or a hallucinated response.
+knowledge_base/pdfs/ — 4 placeholder NAB PDFs (mandate, achievements, complaint procedure, vision/mission), generated the same way video_map.yaml's video files are placeholders pending NAB's real vetted documents.
+tests/phase5_rag_test.py — the required 20 answerable + 10 unanswerable question set, CSV output, PASS/FAIL summary.
+Result: 20/20 grounded answers, 10/10 correct fallback triggers (0% hallucination) — both above the ≥90%/100% bar.
+
+One thing worth flagging: one grounded answer ("Does NAB charge a fee?") came back self-contradictory — cited the right context but the phrasing flip-flopped — because this dev machine only has llama3.2:1b pulled locally, not the spec's recommended llama3.1:8b/Mistral 7B. The code defaults to llama3.1:8b per Section 4; the test/demo scripts override it to llama3.2:1b with a comment explaining why. Worth pulling the larger model before real acceptance testing.
+
+I stopped at Phase 5 as instructed — no orchestrator wiring, fallback-handler integration, or later phases touched.
+======================================================================================
+
+

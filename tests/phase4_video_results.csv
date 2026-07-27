@@ -1,0 +1,17 @@
+﻿check,text,expected_topic,actual_category,actual_topic,correct,method,detail
+mapping,achievements,NAB Achievements,video,NAB Achievements,True,keyword,
+mapping,Tell me about NAB's success stories,NAB Achievements,video,NAB Achievements,True,keyword,
+mapping,نیب کی کامیابیاں بتائیں,NAB Achievements,video,NAB Achievements,True,keyword,
+mapping,AI investigation,NAB AI Investigation System,video,NAB AI Investigation System,True,keyword,
+mapping,Tell me about the artificial intelligence system,NAB AI Investigation System,video,NAB AI Investigation System,True,keyword,
+mapping,اے آئی تحقیقاتی نظام کے بارے میں بتائیں,NAB AI Investigation System,video,NAB AI Investigation System,True,keyword,
+mapping,what is nab,About NAB,video,About NAB,True,keyword,
+mapping,Can you tell me about NAB?,About NAB,video,About NAB,True,keyword,
+mapping,نیب کیا ہے,About NAB,video,About NAB,True,keyword,
+mapping,how nab works,Working of NAB,video,Working of NAB,True,keyword,
+mapping,Explain the working of NAB,Working of NAB,video,Working of NAB,True,keyword,
+mapping,نیب کیسے کام کرتا ہے,Working of NAB,video,Working of NAB,True,keyword,
+playback,,NAB Achievements,,,SKIPPED,,video file not present on disk: C:\Projects\NAB_AI_Voice_Agent\Interactive_Voice_Avatar_Agent\videos\nab_achievements.mp4
+playback,,NAB AI Investigation System,,,SKIPPED,,video file not present on disk: C:\Projects\NAB_AI_Voice_Agent\Interactive_Voice_Avatar_Agent\videos\nab_ai_investigation.mp4
+playback,,About NAB,,,SKIPPED,,video file not present on disk: C:\Projects\NAB_AI_Voice_Agent\Interactive_Voice_Avatar_Agent\videos\about_nab.mp4
+playback,,Working of NAB,,,SKIPPED,,video file not present on disk: C:\Projects\NAB_AI_Voice_Agent\Interactive_Voice_Avatar_Agent\videos\working_of_nab.mp4

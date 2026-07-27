@@ -1,10 +1,11 @@
-# Video-topic keyword map (Section 5.4). This is the `video_map.yaml`
-# referenced directly by the Intent Router's Step 2 (Section 5.3) — the
-# router needs this file to exist to do keyword/fuzzy and semantic video
-# matching, even though populating it with NAB's final video library and
-# wiring actual playback is Phase 4 (module 5.4, src/video/player.py — not
-# implemented yet). The sample topics/keywords below are the ones given
-# verbatim in Section 5.4 of NAB_AI_System_Design.md.
+# Video-topic keyword map (Section 5.4). Used by both the Intent Router's
+# Step 2 (Section 5.3, src/routing/intent_router.py) for keyword/fuzzy and
+# semantic video matching, and by the Video Library Manager
+# (src/video/player.py, Phase 4) to resolve a matched topic to its file for
+# playback. The topics/keywords below are the ones given verbatim in
+# Section 5.4 of NAB_AI_System_Design.md; `file:` entries are placeholders
+# until NAB supplies the actual video library (see design doc Section 2.3
+# Assumptions) — swap them for real files with no code change (NFR6).
 
 videos:
   - topic: "NAB Achievements"

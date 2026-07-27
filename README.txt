@@ -252,6 +252,27 @@ means.
         any later phase yet."
 
 
+        Phase - 4 - Prompt
+        "Read NAB_AI_System_Design.md. This project targets Python 3.12 - use
+        exactly the libraries named in Section 4/15 of that document (e.g.
+        silero-vad, not webrtcvad; coqui-tts, not TTS; PySide6, not PyQt5;
+        langchain-text-splitters, not full langchain). Implement Phase 4
+        exactly as specified in Section 7 (Video Library Manager) and
+        Section 5.4. Create following file : cconfig/video_map.yaml, src/video/player.py
+        Follow the acceptance criteria listed for this phase. Do not implement
+        any later phase yet."
+
+
+         Phase - 5 - Prompt
+        "Read NAB_AI_System_Design.md. This project targets Python 3.12 - use
+        exactly the libraries named in Section 4/15 of that document (e.g.
+        silero-vad, not webrtcvad; coqui-tts, not TTS; PySide6, not PyQt5;
+        langchain-text-splitters, not full langchain). Implement Phase 5
+        exactly as specified in Section 7 (Knowledge Base (PDF RAG)) and
+        Section 5.5. Create following file : src/rag/ingest.py, src/rag/query_engine.py
+        Follow the acceptance criteria listed for this phase. Do not implement
+        any later phase yet."
+
     Reusing this "targets Python 3.12, use exactly the libraries named in
     Section 4/15" sentence at the start of every phase prompt (Phases 1-9)
     is important - it stops Claude Code (or any assistant) from defaulting
