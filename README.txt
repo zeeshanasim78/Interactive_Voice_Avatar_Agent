@@ -220,13 +220,23 @@ means.
 
 4.2 For each phase, use a prompt of this shape (type it into the Claude Code
     session):
-
+        Phase - I - Prompt
         "Read NAB_AI_System_Design.md. This project targets Python 3.12 - use
         exactly the libraries named in Section 4/15 of that document (e.g.
         silero-vad, not webrtcvad; coqui-tts, not TTS; PySide6, not PyQt5;
         langchain-text-splitters, not full langchain). Implement Phase 1
         exactly as specified in Section 7 (Voice Capture & Wake Word) and
         Section 5.1. Create src/audio/capture.py and src/audio/wake_word.py.
+        Follow the acceptance criteria listed for this phase. Do not implement
+        any later phase yet."
+
+        Phase - 2 - Prompt
+        "Read NAB_AI_System_Design.md. This project targets Python 3.12 - use
+        exactly the libraries named in Section 4/15 of that document (e.g.
+        silero-vad, not webrtcvad; coqui-tts, not TTS; PySide6, not PyQt5;
+        langchain-text-splitters, not full langchain). Implement Phase 2
+        exactly as specified in Section 7 (Speech-to-Text (STT)) and
+        Section 5.2. Create src/audio/stt.py file.
         Follow the acceptance criteria listed for this phase. Do not implement
         any later phase yet."
 
