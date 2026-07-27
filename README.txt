@@ -240,6 +240,18 @@ means.
         Follow the acceptance criteria listed for this phase. Do not implement
         any later phase yet."
 
+        Phase - 3 - Prompt
+        "Read NAB_AI_System_Design.md. This project targets Python 3.12 - use
+        exactly the libraries named in Section 4/15 of that document (e.g.
+        silero-vad, not webrtcvad; coqui-tts, not TTS; PySide6, not PyQt5;
+        langchain-text-splitters, not full langchain). Implement Phase 3
+        exactly as specified in Section 7 (Intent Recognition & Routing Engine) and
+        Section 5.3. Create following file : config/restricted_topics.yaml, 
+        src/routing/restricted_filter.py and src/routing/intent_router.py
+        Follow the acceptance criteria listed for this phase. Do not implement
+        any later phase yet."
+
+
     Reusing this "targets Python 3.12, use exactly the libraries named in
     Section 4/15" sentence at the start of every phase prompt (Phases 1-9)
     is important - it stops Claude Code (or any assistant) from defaulting

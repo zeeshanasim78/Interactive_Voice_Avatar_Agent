@@ -1,0 +1,21 @@
+# Video-topic keyword map (Section 5.4). This is the `video_map.yaml`
+# referenced directly by the Intent Router's Step 2 (Section 5.3) — the
+# router needs this file to exist to do keyword/fuzzy and semantic video
+# matching, even though populating it with NAB's final video library and
+# wiring actual playback is Phase 4 (module 5.4, src/video/player.py — not
+# implemented yet). The sample topics/keywords below are the ones given
+# verbatim in Section 5.4 of NAB_AI_System_Design.md.
+
+videos:
+  - topic: "NAB Achievements"
+    keywords: ["achievements", "success stories", "kamyabi", "kaamyabiyan", "کامیابیاں", "کامیابی کی کہانیاں"]
+    file: "videos/nab_achievements.mp4"
+  - topic: "NAB AI Investigation System"
+    keywords: ["AI investigation", "artificial intelligence system", "AI system", "مصنوعی ذہانت کا نظام", "اے آئی تحقیقاتی نظام"]
+    file: "videos/nab_ai_investigation.mp4"
+  - topic: "About NAB"
+    keywords: ["about nab", "what is nab", "nab kya hai", "نیب کیا ہے", "نیب کے بارے میں"]
+    file: "videos/about_nab.mp4"
+  - topic: "Working of NAB"
+    keywords: ["how nab works", "working of nab", "nab ka nizam", "نیب کیسے کام کرتا ہے", "نیب کا نظام"]
+    file: "videos/working_of_nab.mp4"

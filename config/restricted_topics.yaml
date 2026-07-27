@@ -1,0 +1,119 @@
+# Restricted-topic patterns for the hard pre-filter (FR12, Section 5.3 Step 1).
+#
+# NAB shall NEVER answer questions about specific ongoing investigations,
+# case details, or named individuals — only general/public information about
+# NAB's mandate, achievements, and processes. This file is the source of
+# truth for that boundary and must be approved by NAB compliance before
+# go-live (Section 7, Phase 3, step 1).
+#
+# Matching is keyword (substring, case-insensitive) and regex based only —
+# no LLM/semantic step is involved in this file, by design (Section 9,
+# review finding #3: the restricted filter must be a hard pre-filter that
+# cannot be talked around by LLM reasoning or prompt injection).
+#
+# status: DRAFT — pending NAB compliance sign-off.
+
+# Fixed response used verbatim whenever any pattern below matches. This is
+# distinct from the generic "not available" fallback (config/settings.yaml,
+# Phase 6) — restricted topics get this dedicated boundary statement instead.
+restricted_response: >
+  I have boundaries in accessing that information. I cannot discuss specific
+  cases, ongoing investigations, or named individuals. I can share general
+  information about NAB's mandate, achievements, and how NAB works — please
+  ask about one of those topics instead.
+
+categories:
+  - name: case_specific
+    description: >
+      References to a specific case/reference/file number or asking about
+      "this case" / "that case" directly.
+    keywords:
+      - "case number"
+      - "case no"
+      - "reference number"
+      - "nab reference"
+      - "case file"
+      - "case details"
+      - "this case"
+      - "that case"
+      - "specific case"
+      - "case ka number"
+      - "case ki tafseel"
+      - "kes number"
+      - "کیس نمبر"
+      - "ریفرنس نمبر"
+      - "کیس کی تفصیل"
+      - "اس کیس"
+    patterns:
+      - "\\bcase\\s*(no\\.?|number|#)\\s*\\d+\\b"
+      - "\\bnab\\s*ref(erence)?\\s*(no\\.?|number|#)?\\s*\\d*\\b"
+      - "\\breference\\s*(no\\.?|number|#)\\s*\\d+\\b"
+
+  - name: named_individual
+    description: >
+      Asking about a specific named person's case, accusation, arrest, or
+      investigation status.
+    keywords:
+      - "accused"
+      - "suspect"
+      - "arrested"
+      - "detained"
+      - "under investigation"
+      - "under nab investigation"
+      - "is he guilty"
+      - "is she guilty"
+      - "mulzim"
+      - "giraftar"
+      - "zair-e-tafteesh"
+      - "زیر تفتیش"
+      - "ملزم"
+      - "گرفتار"
+      - "مشتبہ"
+    patterns:
+      - "\\b(mr|mrs|ms|dr|sir)\\.?\\s+[a-z]+\\b.{0,40}\\b(case|investigation|accused|corruption|arrest|guilty|reference|complaint|inquiry|probe)\\b"
+      - "\\b(case|investigation|corruption|arrest|reference|complaint|inquiry|probe)\\b.{0,40}\\b(mr|mrs|ms|dr|sir)\\.?\\s+[a-z]+\\b"
+
+  - name: ongoing_proceedings
+    description: >
+      Ongoing legal/court proceedings — hearings, verdicts, trial status,
+      references pending in court, plea bargains, etc.
+    keywords:
+      - "court proceedings"
+      - "court hearing"
+      - "next hearing"
+      - "verdict"
+      - "trial"
+      - "under trial"
+      - "plea bargain"
+      - "reference in court"
+      - "pending in court"
+      - "adalat mein"
+      - "sunwai"
+      - "faisla"
+      - "عدالتی کارروائی"
+      - "سماعت"
+      - "فیصلہ"
+      - "پلی بارگین"
+    patterns:
+      - "\\bnext\\s+hearing\\b"
+      - "\\bwhen\\s+will\\s+.{0,30}\\b(verdict|decision|judgment)\\b"
+
+  - name: bypass_attempt
+    description: >
+      Attempts to override, jailbreak, or talk the system out of this
+      restriction (Section 9, review finding #3).
+    keywords:
+      - "ignore your restrictions"
+      - "ignore previous instructions"
+      - "ignore your rules"
+      - "bypass your rules"
+      - "override your rules"
+      - "pretend you have no restrictions"
+      - "pretend there are no restrictions"
+      - "act as if you have no rules"
+      - "forget your rules"
+      - "forget your restrictions"
+    patterns:
+      - "\\bignore\\s+(?:\\w+\\s+){0,2}(rules|restrictions|instructions|guidelines)\\b"
+      - "\\b(bypass|override|disable)\\s+(your|the)\\s+(rules|restrictions|filter)\\b"
+      - "\\bpretend\\s+(you|there)\\s+(have\\s+no|are\\s+no)\\s+(restrictions|rules)\\b"
