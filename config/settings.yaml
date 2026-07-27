@@ -1,0 +1,29 @@
+# General system settings (Section 6 folder structure: "thresholds, model
+# names, boundary message"). Phase 6 (Section 7) populates only the two
+# fixed-wording entries this phase owns:
+#   - fallback_response  -- the Fallback Handler's boundary message (5.6, FR7)
+#   - processing_prompt  -- the processing wait-prompt text (5.8, FR14),
+#     which Phase 7 pre-generates once, offline, into
+#     avatar_assets/audio/processing_prompt.wav
+# Thresholds and model names belong to later phases and are intentionally
+# not added here yet.
+#
+# status: DRAFT — pending NAB compliance sign-off on exact wording.
+
+# Fixed, non-fabricated boundary statement (FR7, Section 5.6, example
+# wording given in the design doc). Used verbatim by the Fallback Handler
+# whenever a query is out of scope of both the video library and the PDF
+# knowledge base — never LLM-generated (Phase 6 acceptance criterion).
+# Distinct from config/restricted_topics.yaml's `restricted_response`, which
+# is the dedicated boundary statement for case/individual/investigation
+# queries (FR12) instead of this generic "not available" fallback.
+fallback_response: >
+  I have boundaries in accessing that information; it is not available with
+  me at this time. You may contact NAB's official helpline or website for
+  further assistance.
+
+# Fixed wait-prompt text (FR14, Section 5.8), verbatim from the design doc.
+# Phase 7 runs the TTS engine over this string exactly once, at setup time,
+# and caches the result as avatar_assets/audio/processing_prompt.wav -- it
+# is never synthesized live per-request.
+processing_prompt: "Please wait, I am processing your request."

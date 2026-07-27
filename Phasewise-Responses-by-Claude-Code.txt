@@ -1079,4 +1079,15 @@ One thing worth flagging: one grounded answer ("Does NAB charge a fee?") came ba
 I stopped at Phase 5 as instructed — no orchestrator wiring, fallback-handler integration, or later phases touched.
 ======================================================================================
 
+Phase 6 : Response
+
+-> "I have boundaries in accessing that information; it is not available with me at this time. You may contact NAB's official helpline or website for further assistance."
+Phase 6 is complete and passing. Summary:
+
+config/settings.yaml — new file with fallback_response (the FR7/§5.6 boundary statement, verbatim from the design doc) and processing_prompt (the FR14/§5.8 wait-prompt text, for Phase 7 to consume later).
+src/response/fallback_handler.py — new FallbackHandler module (§5.6). Loads the fixed message once from settings.yaml and get_response() hands it back verbatim, unconditionally — no query input, no LLM call, so it can't vary run to run. This is the piece Phase 8 will wire into the orchestrator's fallback branch.
+tests/phase6_fallback_test.py — acceptance test matching the existing phaseN_*_test.py convention: confirms the returned message matches the config exactly, is identical across 5 repeated instantiations, source is always "config", and the processing_prompt entry matches FR14's wording. All 4 checks pass.
+Scope stayed within Phase 6/§5.6 as instructed — no orchestrator, TTS, or avatar code was touched (those are Phases 7–8).
+
+======================================================================================
 

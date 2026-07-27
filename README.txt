@@ -273,6 +273,28 @@ means.
         Follow the acceptance criteria listed for this phase. Do not implement
         any later phase yet."
 
+P       Phase - 6 - Prompt
+        "Read NAB_AI_System_Design.md. This project targets Python 3.12 - use
+        exactly the libraries named in Section 4/15 of that document (e.g.
+        silero-vad, not webrtcvad; coqui-tts, not TTS; PySide6, not PyQt5;
+        langchain-text-splitters, not full langchain). Implement Phase 6
+        exactly as specified in Section 7 (Fallback Handler) and
+        Section 5.6 . Create following file : config/settings.yaml (fallback + processing-prompt text)
+        Follow the acceptance criteria listed for this phase. Do not implement
+        any later phase yet."
+
+        Phase - 7 - Prompt
+        "Read NAB_AI_System_Design.md. This project targets Python 3.12 - use
+        exactly the libraries named in Section 4/15 of that document (e.g.
+        silero-vad, not webrtcvad; coqui-tts, not TTS; PySide6, not PyQt5;
+        langchain-text-splitters, not full langchain). Implement Phase 7
+        exactly as specified in Section 7 (Text-to-Speech (TTS)) and
+        Section 5.7 . Create following file : src/response/tts.py, src/response/avatar.py,
+                    avatar_assets/audio/processing_prompt.wav (generated once)
+        Follow the acceptance criteria listed for this phase. Do not implement
+        any later phase yet."
+
+
     Reusing this "targets Python 3.12, use exactly the libraries named in
     Section 4/15" sentence at the start of every phase prompt (Phases 1-9)
     is important - it stops Claude Code (or any assistant) from defaulting
