@@ -1091,3 +1091,19 @@ Scope stayed within Phase 6/§5.6 as instructed — no orchestrator, TTS, or ava
 
 ======================================================================================
 
+
+Phase 8 Response : ### 5.8 Avatar & Lip-Sync
+======================================================================================
+Implemented Phase 8 (Orchestrator / Dialogue Manager, module 5.9) — the phase your selected prompt's file list actually pointed to, despite its text mislabeling it "Phase 7" (a copy/paste typo already present in your uncommitted README.txt edit).
+
+src/orchestrator.py: an explicit state machine — IDLE → LISTENING → TRANSCRIBING → PROCESSING → ROUTING → (VIDEO | RAG_ANSWER | RESTRICTED | FALLBACK | CLARIFY) → RESPONDING → IDLE — wiring together every Phase 1–7 module (capture, STT, router, video player, RAG query engine, fallback handler, TTS, avatar). Key details:
+
+PROCESSING fires avatar.play_processing() (cached wait-prompt + looping animation, FR14) immediately, while routing/RAG runs on a background thread via ThreadPoolExecutor.
+CLARIFY triggers on either low STT confidence or borderline routing confidence (Section 9 review finding #2 / NFR10), instead of guessing.
+Video/response failures are caught and answered with a spoken apology rather than crashing (review finding #6); RAG/VLC unavailability degrades gracefully instead of raising at startup.
+build_orchestrator() factory wires the real hardware-backed components; the class itself takes plain constructor-injected collaborators so it's testable without a mic/VLC/Ollama.
+Logging wiring (logs/interactions.db): two append-only SQLite tables — state_transitions (one row per transition, satisfying "every transition is logged") and interactions (one complete summary row per finished interaction, with processing_started_at/processing_ended_at for FR14 timing) — created automatically by InteractionLogger.
+
+tests/phase8_orchestrator_test.py: drives the real orchestrator/logging code with stubbed Phase 1–7 leaves, verifying all 4 response types + both CLARIFY paths + the error-apology path, with no state skipped, one complete log row per interaction, and no raw mic audio persisted (NFR5). All 22 checks pass.
+
+======================================================================================

@@ -294,6 +294,25 @@ P       Phase - 6 - Prompt
         Follow the acceptance criteria listed for this phase. Do not implement
         any later phase yet."
 
+         Phase - 8 - Prompt
+        "Read NAB_AI_System_Design.md. This project targets Python 3.12 - use
+        exactly the libraries named in Section 4/15 of that document (e.g.
+        silero-vad, not webrtcvad; coqui-tts, not TTS; PySide6, not PyQt5;
+        langchain-text-splitters, not full langchain). Implement Phase 7
+        exactly as specified in Section 7 (Avatar & Lip-Sync) and
+        Section 5.8 . Create following file : src/orchestrator.py, logs/interactions.db wiring
+        Follow the acceptance criteria listed for this phase. Do not implement
+        any later phase yet."
+
+         Phase - 9 - Prompt
+        "Read NAB_AI_System_Design.md. This project targets Python 3.12 - use
+        exactly the libraries named in Section 4/15 of that document (e.g.
+        silero-vad, not webrtcvad; coqui-tts, not TTS; PySide6, not PyQt5;
+        langchain-text-splitters, not full langchain). Implement Phase 7
+        exactly as specified in Section 7 (Orchestrator / Dialogue Manager) and
+        Section 5.9 . Create following file : src/ui/kiosk_app.py
+        Follow the acceptance criteria listed for this phase. Do not implement
+        any later phase yet."
 
     Reusing this "targets Python 3.12, use exactly the libraries named in
     Section 4/15" sentence at the start of every phase prompt (Phases 1-9)
